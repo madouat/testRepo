@@ -19,7 +19,7 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>git@git.tm.tmcs:content/content-authoring-adapter.git</url>
+        <url>https://github.com/madouat/testRepo.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
