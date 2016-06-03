@@ -11,4 +11,9 @@ public class TestClassTest {
 	public void testA() {
 		assertThat(1, equalTo(1));
 	}
+
+	@Test
+	public void testB() {
+		assertThat(1, equalTo(1));
+	}
 }
