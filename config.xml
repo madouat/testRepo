@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0' encoding='UTF-8'?>kll
 <maven2-moduleset plugin="maven-plugin">
   <actions/>
   <description></description>
@@ -75,39 +75,6 @@
       <perModuleEmail>true</perModuleEmail>
     </hudson.maven.reporters.MavenMailer>
   </reporters>
-  <publishers>
-    <hudson.plugins.sonar.SonarPublisher plugin="sonar@2.0">
-      <jdk>(Inherit From Job)</jdk>
-      <branch></branch>
-      <language></language>
-      <mavenOpts></mavenOpts>
-      <jobAdditionalProperties></jobAdditionalProperties>
-      <triggers>
-        <skipScmCause>false</skipScmCause>
-        <skipUpstreamCause>false</skipUpstreamCause>
-        <envVar>sonar.ignore</envVar>
-      </triggers>
-    </hudson.plugins.sonar.SonarPublisher>
-    <org.jvnet.hudson.plugins.groovypostbuild.GroovyPostbuildRecorder plugin="groovy-postbuild">
-      <groovyScript>def currentBuild = manager.build; def mavenVer = currentBuild.getParent().getModules().toArray()[0].getVersion(); manager.addShortText(&quot;${mavenVer}&quot;)
-            </groovyScript>
-      <behavior>0</behavior>
-    </org.jvnet.hudson.plugins.groovypostbuild.GroovyPostbuildRecorder>
-  </publishers>
-  <buildWrappers>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper"/>
-    <org.jvnet.hudson.plugins.m2release.M2ReleaseBuildWrapper plugin="m2release">
-      <scmUserEnvVar></scmUserEnvVar>
-      <scmPasswordEnvVar></scmPasswordEnvVar>
-      <releaseEnvVar>IS_M2RELEASEBUILD</releaseEnvVar>
-      <releaseGoals>-Dresume=false release:prepare release:perform -Djetty.skip=true</releaseGoals>
-      <dryRunGoals>-Dresume=false -DdryRun=true release:prepare -Djetty.skip=true</dryRunGoals>
-      <selectCustomScmCommentPrefix>false</selectCustomScmCommentPrefix>
-      <selectAppendHudsonUsername>false</selectAppendHudsonUsername>
-      <selectScmCredentials>false</selectScmCredentials>
-      <numberOfReleaseBuildsToKeep>0</numberOfReleaseBuildsToKeep>
-    </org.jvnet.hudson.plugins.m2release.M2ReleaseBuildWrapper>
-  </buildWrappers>
   <prebuilders>
   <hudson.tasks.Shell>
       <command>#!/bin/bash
