@@ -15,5 +15,6 @@ public class TestClassTest {
 	@Test
 	public void testB() {
 		assertThat(1, equalTo(1));
+		System.out.println("totot");
 	}
 }
