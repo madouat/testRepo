@@ -1,4 +1,4 @@
-package com.test;
+package com.pack;
 
 public class TestClass {
 
