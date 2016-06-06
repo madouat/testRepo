@@ -8,8 +8,8 @@
 		<jacoco.out.it.file>jacoco-it.exec</jacoco.out.it.file>
 		<jacoco.out.file>jacoco.exec</jacoco.out.file>
 		<jacoco.out.path>${project.basedir}/target/</jacoco.out.path>
-		<min.branch.coverage>0</min.branch.coverage>
-		<min.line.coverage>0</min.line.coverage>
+		<min.branch.coverage>70</min.branch.coverage>
+		<min.line.coverage>70</min.line.coverage>
 	</properties>
 	<dependencies>
 		<!-- http://mvnrepository.com/artifact/junit/junit -->
