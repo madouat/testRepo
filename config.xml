@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8'?>kll
+<maven2-moduleset plugin="maven-plugin">
+  <actions/>
+  <description></description>
+  <logRotator class="hudson.tasks.LogRotator">
+    <daysToKeep>5</daysToKeep>
+    <numToKeep>5</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <org.jenkinsci.plugins.mavenrepocleaner.MavenRepoCleanerProperty plugin="maven-repo-cleaner">
+      <notOnThisProject>false</notOnThisProject>
+    </org.jenkinsci.plugins.mavenrepocleaner.MavenRepoCleanerProperty>
+    <com.gmail.ikeike443.PlayAutoTestJobProperty plugin="play-autotest-plugin"/>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>https://github.com/madouat/testRepo.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>{{ GIT_BRANCH }}</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <browser class="hudson.plugins.git.browser.GitLab">
+      <url>{{ GIT_URL }}</url>
+      <version>{{ GITLAB_VERSION }}</version>
+    </browser>
+    <submoduleCfg class="list"/>
+    <extensions>
+      <hudson.plugins.git.extensions.impl.WipeWorkspace/>
+      <hudson.plugins.git.extensions.impl.LocalBranch>
+        <localBranch>{{ GIT_BRANCH }}</localBranch>
+      </hudson.plugins.git.extensions.impl.LocalBranch>
+    </extensions>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <jdk>JDK8</jdk>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <rootModule>
+    <groupId>com.ticketmaster.content</groupId>
+    <artifactId>content-authoring-adapter</artifactId>
+  </rootModule>
+  <goals>clean deploy</goals>
+  <mavenName>Maven</mavenName>
+  <mavenOpts>-Xms1024M -Xmx2048M -XX:NewSize=128m -XX:MaxNewSize=256m -XX:PermSize=128m -XX:MaxPermSize=512m -XX:+CMSClassUnloadingEnabled         -XX:+UseConcMarkSweepGC -XX:+CMSPermGenSweepingEnabled</mavenOpts>
+  <aggregatorStyleBuild>true</aggregatorStyleBuild>
+  <incrementalBuild>false</incrementalBuild>
+  <perModuleEmail>true</perModuleEmail>
+  <ignoreUpstremChanges>false</ignoreUpstremChanges>
+  <archivingDisabled>true</archivingDisabled>
+  <resolveDependencies>false</resolveDependencies>
+  <processPlugins>false</processPlugins>
+  <mavenValidationLevel>-1</mavenValidationLevel>
+  <runHeadless>false</runHeadless>
+  <settingConfigId></settingConfigId>
+  <globalSettingConfigId></globalSettingConfigId>
+  <disableTriggerDownstreamProjects>false</disableTriggerDownstreamProjects>
+  <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+  <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+  <reporters>
+    <hudson.maven.reporters.MavenMailer>
+      <dontNotifyEveryUnstableBuild>true</dontNotifyEveryUnstableBuild>
+      <sendToIndividuals>false</sendToIndividuals>
+      <perModuleEmail>true</perModuleEmail>
+    </hudson.maven.reporters.MavenMailer>
+  </reporters>
+  <prebuilders>
+  <hudson.tasks.Shell>
+      <command>#!/bin/bash
+RESERVED_NAME=(&quot;develop&quot; &quot;master&quot; &quot;release&quot;)
+BRANCH={{ GIT_BRANCH }}
+ESCAPED_BRANCH=${BRANCH//-/_}
+ESCAPED_BRANCH=${ESCAPED_BRANCH//origin\/}
+ESCAPED_BRANCH=${ESCAPED_BRANCH//refs\/}
+ESCAPED_BRANCH=${ESCAPED_BRANCH//heads\/}
+ESCAPED_BRANCH=${ESCAPED_BRANCH//\//_}
+version=`mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version|grep -Ev &apos;(^\[|Download\w+:)&apos;|cut -f 1 -d -`.${ESCAPED_BRANCH}
+
+function isReservedName() {
+  local e
+  for e in &quot;${RESERVED_NAME[@]}&quot;; do [[ &quot;$1&quot; == &quot;$e&quot;* ]] &amp;&amp; return 0; done
+    return 1
+}
+
+isReservedName $BRANCH
+reservedName=$?
+if [ &quot;$reservedName&quot; = &quot;1&quot; ]
+then
+  mvn versions:set versions:update-child-modules -DnewVersion=${version}-SNAPSHOT
+fi
+      </command>
+    </hudson.tasks.Shell>
+  </prebuilders>
+  <postbuilders/>
+  <runPostStepsIfResult>
+    <name>FAILURE</name>
+    <ordinal>2</ordinal>
+    <color>RED</color>
+    <completeBuild>true</completeBuild>
+  </runPostStepsIfResult>
+</maven2-moduleset>
