@@ -11,6 +11,7 @@
 		<min.branch.coverage>70</min.branch.coverage>
 		<min.line.coverage>70</min.line.coverage>
 		<min.line.coverage2>70</min.line.coverage2>
+<min.line.coverage9>70</min.line.coverage9>
 	</properties>
 	<dependencies>
 		<!-- http://mvnrepository.com/artifact/junit/junit -->
