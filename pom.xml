@@ -11,6 +11,7 @@
 		<min.branch.coverage>70</min.branch.coverage>
 		<min.line.coverage>70</min.line.coverage>
 	</properties>
+<!-- firt partial modif -->
 	<dependencies>
 		<!-- http://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
@@ -66,6 +67,7 @@
 							<goal>check</goal>
 						</goals>
 						<configuration>
+<!-- another partial commit -->
 							<rules>
 								<rule implementation="org.jacoco.maven.RuleConfiguration">
 									<element>BUNDLE</element>
